@@ -5,17 +5,19 @@ describe Game do
   let (:player1) {Player.new(1)}
   let (:player2) {Player.new(2)}
   # let (:board) {Board.new}
-  let (:game) {Game.new(player1, player2)}
+  before :all do
+    @game = Game.new(player1, player2)
+  end
 
   describe "#initialize" do
     it "return two players with player instances" do
-      game.player1.should be_an_instance_of Player
-      game.player2.should be_an_instance_of Player
+      @game.player1.should be_an_instance_of Player
+      @game.player2.should be_an_instance_of Player
     end
 
     it "should return two players with either color 1 or color 2" do
-      game.player1.color.should == 1
-      game.player2.color.should == 2
+      @game.player1.color.should == 1
+      @game.player2.color.should == 2
     end
 
     it "should return a board with a board instance"
@@ -48,7 +50,24 @@ describe Game do
   #   end
   # end
 
+  describe "#current_player" do
+    context "when turn counter is odd" do
+      it "should return player 1" do
+        @game.current_player.should == player1
+
+      end
+    end
+    context "when turn counter is even" do
+      it "should return player 2" do
+        @game.current_player.should == player2
+      end
+    end
+  end
+
+
 end
+
+
 
 class Board
 end
