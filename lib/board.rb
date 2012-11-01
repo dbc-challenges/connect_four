@@ -11,6 +11,10 @@ class Board
     cells.all? { |cell| cell.empty? }
   end
 
+  def empty_cells
+    cells.select {|cell| cell == "" }.size
+  end
+
   def place_piece(column, piece)
     position = (col_num * (row_num - 1)) + (column - 1)
     until cells[position].empty?
