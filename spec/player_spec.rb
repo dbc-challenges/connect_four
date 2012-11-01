@@ -2,7 +2,7 @@ require_relative '../lib/player.rb'
 
 
 describe Player do
-  let (:player) {Player.new(1)}
+  let (:player) {Player.new("scott", 1)}
   context "#initialize" do
     it "should give us the color arguement" do
       player.color.should == 1
