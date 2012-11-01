@@ -1,6 +1,7 @@
 class Player
   attr_reader :color
 
+  #players are initialized with a color, color '1' or color '2'
   def initialize(color)
     @color = color
   end

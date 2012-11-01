@@ -54,16 +54,63 @@ describe Game do
     context "when turn counter is odd" do
       it "should return player 1" do
         @game.current_player.should == player1
-
       end
     end
     context "when turn counter is even" do
       it "should return player 2" do
+        @game.stub!(:turn_counter).and_return(2)
         @game.current_player.should == player2
       end
     end
   end
 
+  describe "#take_turn" do
+    context "when the player takes a turn" do
+      before(:each) do
+        @valid_col = 1
+        @invalid_col = 5
+        # @move_count = 0
+        # Board.any_instance.stub(:drop_disc!) { @move_count < 10 ? false : true }
+      end
+
+      it "should return true for a column with available spots" do
+        Board.any_instance.stub(:drop_disc!).and_return(true)
+        @game.take_turn.should == true
+      end
+      it "should return true for a column with available spots" do
+        Board.any_instance.stub(:drop_disc!).and_return(true)
+        Player.any_instance.stub(:next_move).and_return(@valid_col)
+        @game.take_turn.should be_true
+      end
+      # it "should return false for a column with no available spots" do
+      #   Board.any_instance.stub(:drop_disc!).and_return(false)
+      #   Player.any_instance.stub(:next_move).and_return(@invalid_col)
+      #   @game.take_turn.should_receive(:take_turn)
+      # end
+      # it "returns true for a column with available spots" do
+      #   @move_count = 10
+      #   @game.take_turn.should be_true
+      # end
+    end
+  end
+
+
+  describe "#winner" do
+    context "when the board has a connect four" do
+      it "should return the player that color belongs to" do
+        Board.any_instance.stub(:color_of_connect_four).and_return(1)
+          @game.winner.should == player1
+      end
+      it "should return the player that color belongs to" do
+        Board.any_instance.stub(:color_of_connect_four).and_return(2)
+          @game.winner.should == player2
+      end
+      it "should return a tie if there is no winner" do
+        Board.any_instance.stub(:color_of_connect_four).and_return(nil)
+        @game.winner.should == "tie"
+      end
+    end
+  end
 
 end
 
