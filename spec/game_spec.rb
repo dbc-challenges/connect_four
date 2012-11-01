@@ -75,7 +75,8 @@ describe Game do
 
       it "should return true for a column with available spots" do
         Board.any_instance.stub(:drop_disc!).and_return(true)
-        @game.take_turn.should == true
+        Player.any_instance.stub(:next_move).and_return(@valid_col)
+        @game.take_turn.should be_true
       end
       it "should return true for a column with available spots" do
         Board.any_instance.stub(:drop_disc!).and_return(true)
