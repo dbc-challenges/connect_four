@@ -1,5 +1,6 @@
 require_relative '../lib/game.rb'
 require_relative '../lib/player.rb'
+require_relative '../lib/board.rb'
 
 describe Game do
   let (:player1) {Player.new(1)}
@@ -25,30 +26,30 @@ describe Game do
     it "should return the correct color for a certain position called on the board"
   end
 
-  # describe "#over?" do
-  #   context "when the board is or isn't full" do
-  #     it "should return true when the board is full" do
-  #        Board.any_instance.stub(:full?).and_return(true)
-  #        game.over?.should == true
-  #     end
-  #     it "should return false when the board is NOT full" do
-  #        Board.any_instance.stub(:full?).and_return(false)
-  #        game.over?.should == false
-  #     end
-  #   end
-  #
-  #   context "when the board has or doesn't have a connect four" do
-  #     it "should return true when the board has a connect four" do
-  #      Board.any_instance.stub(:four?).and_return(true)
-  #      game.over?.should == true
-  #     end
-  #
-  #     it "should return false when the board doesn't have a connect four" do
-  #        Board.any_instance.stub(:four?).and_return(false)
-  #        game.over?.should == false
-  #     end
-  #   end
-  # end
+  describe "#over?" do
+    context "when the board is or isn't full" do
+      it "should return true when the board is full" do
+         Board.any_instance.stub(:full?).and_return(true)
+         @game.over?.should == true
+      end
+    end
+
+    context "when the board has or doesn't have a connect four" do
+      it "should return true when the board has a connect four" do
+        Board.any_instance.stub(:color_of_connect_four).and_return(1)
+        @game.over?.should == true
+      end
+
+      it "should return true when the board has a connect four" do
+        Board.any_instance.stub(:color_of_connect_four).and_return(2)
+        @game.over?.should == true
+      end
+      it "should return false when the board doesn't have a connect four" do
+        Board.any_instance.stub(:color_of_connect_four).and_return(nil)
+        @game.over?.should == false
+      end
+    end
+  end
 
   describe "#current_player" do
     context "when turn counter is odd" do
@@ -115,7 +116,3 @@ describe Game do
 
 end
 
-
-
-class Board
-end
