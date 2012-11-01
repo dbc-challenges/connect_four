@@ -12,7 +12,7 @@ describe Player do
   context "#next_move" do
     it "should return an integer less than 8 " do
       player.stub!(:gets).and_return("7")
-      player.next_move.should be < 8
+      player.next_move(nil).should be < 8
     end
   end
 end

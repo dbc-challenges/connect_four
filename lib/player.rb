@@ -28,12 +28,13 @@ class Defendor < Player
 	def next_move(board)
 		# make sure your next move won't allow the other player to win
 		# - block any 3 in a row
-		find_all_3_in_a_rows
+		#find_all_3_in_a_rows
 		# - don't support a 4 in a row
-		find_all_about_to_be_4_in_a_rows
+		#find_all_about_to_be_4_in_a_rows
 		# otherwise pick a random move	
-		ask_randall
+		#ask_randall
 	end	
+end
 
 # offensive player
 class Butthead < Player
