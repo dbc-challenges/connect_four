@@ -22,7 +22,7 @@ class Game
 
   def take_turn ############write test for this method#############
     player = current_player
-    column = player.next_move
+    column = player.next_move(board)
     success = @board.drop_disc!(column, player.color)
     @turn_counter += 1 if success
     return success
