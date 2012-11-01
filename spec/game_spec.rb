@@ -3,8 +3,8 @@ require_relative '../lib/player.rb'
 require_relative '../lib/board.rb'
 
 describe Game do
-  let (:player1) {Player.new(1)}
-  let (:player2) {Player.new(2)}
+  let (:player1) {Player.new("scott", 1)}
+  let (:player2) {Player.new("kunal", 2)}
   # let (:board) {Board.new}
   before :all do
     @game = Game.new(player1, player2)
