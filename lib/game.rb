@@ -1,4 +1,5 @@
 require_relative './player.rb'
+require_relative './board.rb'
 
 class Game
   attr_reader :player1, :player2, :turn_counter, :board
@@ -22,11 +23,9 @@ class Game
   def take_turn ############write test for this method#############
     player = current_player
     column = player.next_move
-    until @board.drop_disc!(column, player.color)
-      take_turn
-    end
-    @turn_counter += 1
-    true
+    success = @board.drop_disc!(column, player.color)
+    @turn_counter += 1 if success
+    return success
   end
 
   def winner

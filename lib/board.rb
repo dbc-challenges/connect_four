@@ -7,6 +7,7 @@ class Board
 	end
 
 	def drop_disc!(column, color)
+		return false if column > 7 || column < 0
 		@board[column-1].each_with_index do |cell, index|
 			if cell.nil?
 				@board[column-1][index] = color
@@ -75,7 +76,7 @@ class Board
 	end
 
 	def four_in_downward_diagonal
-		(6-@last_drop_column) > (@last_drop_row) ? min_coordinate = @last_drop_row : min_coordinate = (6-@last_drop_column)
+		(6-@last_drop_column) > @last_drop_row ? min_coordinate = @last_drop_row : min_coordinate = (6-@last_drop_column)
 		base_row = @last_drop_row - min_coordinate
 		base_column = @last_drop_column + min_coordinate
 
