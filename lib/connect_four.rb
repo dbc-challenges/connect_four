@@ -4,5 +4,6 @@ require_relative 'connect_four/game'
 require_relative 'connect_four/player'
 require_relative 'connect_four/connect_four'
 
-# game = ConnectFour.new
-# game.start
+#
+ConnectFour.start
+ConnectFour.game.play

@@ -9,40 +9,28 @@ class Game
     @board = Board.new
   end
 
-  def start!
-    while !over?
-      if board.place(current_player.move)
-        toggle_player
+  def play
+    until board.full? || board.check_four_consecutive?
+      next_round == "O" ? current_turn = "#{player1.name}" : current_turn = "#{player2.name}"
+      if current_turn == "Computer"
+        next_move(rand(7))
       else
-        puts "invalid move"
+        puts "#{current_turn}, what column do you want to play in?"
+        next_move(gets.chomp.to_i)
       end
+      board.rows.each { |row| p row }
     end
-    puts board.winner || "Tie game!"
+    puts "Congratulations, #{current_turn}. You are a real winner."
+    winner = current_turn
   end
 
   def next_move(column)
     round = next_round
-    board.place_piece(column, round)
+    board.place_piece(column, round) unless column > board.col_num
   end
 
   def next_round
-    @board.empty_cells.even? ? "black" : "red"
-  end
-
-  def current_player
-    @players.first
-  end
-
-  def toggle_player
-    @players.rotate!
-  end
-
-  def save
-
-  end
-
-  def over?
-    board.full? || board.four_in_a_row?
+    @board.empty_cells.even? ? "O" : "X"
   end
 
   def self.wins_for(player_id)
@@ -57,3 +45,32 @@ class Game
     db.execute("SELECT COUNT(*) FROM games WHERE player1 = ? OR player2 = ? AND winner IS NULL", Array.new(2, player_id)).first
   end
 end
+
+
+
+# def start!
+ #     while !over?
+ #       if board.place(current_player.move)
+ #         toggle_player
+ #       else
+ #         puts "invalid move"
+ #       end
+ #     end
+ #     puts board.winner || "Tie game!"
+ #   end
+
+ # def current_player
+ #    @players.first
+ #  end
+ #
+ #  def toggle_player
+ #    @players.rotate!
+ #  end
+ #
+ #  def save
+ #
+ #  end
+
+ # def over?
+ #   board.full? || board.four_in_a_row?
+ # end
