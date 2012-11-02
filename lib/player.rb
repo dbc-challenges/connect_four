@@ -73,43 +73,30 @@ class AIPlayer5 < Player
   def next_move(board)
     if board[3].include?(nil) && count_nil(board[3]) > 3
       4
-
     elsif board[2].include?(nil) && count_nil(board[2]) > 3
       3
-
     elsif board[4].include?(nil) && count_nil(board[4]) > 3
       5
-
     elsif board[1].include?(nil) && count_nil(board[1]) > 3
       2
-
     elsif board[5].include?(nil) && count_nil(board[5]) > 3
       6
-
     elsif board[0].include?(nil) && count_nil(board[0]) > 3
       1
-
     elsif board[6].include?(nil) && count_nil(board[6]) > 3
       7
-
     elsif board[3].include?(nil)
       4
-
     elsif board[2].include?(nil)
       3
-
     elsif board[4].include?(nil)
       5
-
     elsif board[1].include?(nil)
       2
-
     elsif board[5].include?(nil)
       6
-
     elsif board[0].include?(nil)
       1
-
     elsif board[6].include?(nil)
       7
     end
