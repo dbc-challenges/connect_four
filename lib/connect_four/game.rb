@@ -5,7 +5,7 @@ class Game
   def initialize(player1, player2)
     @player1 = player1
     @player2 = player2
-    @players = [@player1, @player2]
+    #@players = [@player1, @player2]
     @board = Board.new
   end
 
@@ -15,13 +15,16 @@ class Game
       if current_turn == "Computer"
         next_move(rand(7))
       else
-        puts "#{current_turn}, what column do you want to play in?"
-        next_move(gets.chomp.to_i)
+        UI.player_move(current_turn)
+        # puts "#{current_turn}, what column do you want to play in?"
+        # next_move(gets.chomp.to_i)
       end
-      board.rows.each { |row| p row }
+      #UI.print_board
+      puts UI.board_to_twitter(board.cells)
     end
-    puts "Congratulations, #{current_turn}. You are a real winner."
     winner = current_turn
+    UI.congratulations(current_turn)
+    #save game
   end
 
   def next_move(column)

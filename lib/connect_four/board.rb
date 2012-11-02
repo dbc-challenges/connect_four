@@ -1,5 +1,6 @@
 class Board
-  attr_reader :col_num, :row_num, :cells
+  attr_reader :col_num, :row_num
+  attr_accessor :cells
 
   def initialize(col_num = 7, row_num = 6)
     @cells = Array.new(col_num * row_num, "")

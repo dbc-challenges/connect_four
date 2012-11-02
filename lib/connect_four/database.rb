@@ -6,7 +6,6 @@ class DB
     @file_path = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'db', name))
 
     unless File.exists?(@file_path)
-      #system("touch #{name}")
       system("sqlite3 #{@file_path} < ./db/schema.sql")
     end
 
@@ -20,19 +19,6 @@ class DB
     result
   end
 
-  # def self.db
-  #   @db ||= find_or_create
-  # end
-  #
-  # def self.find_or_create
-  #   name = "connectfour.db"
-  #   system("sqlite3 #{name} < ./db/schema.sql")
-  #   SQLite3::Database.new(name)
-  # end
-  #
-  # def self.execute(query, *args)
-  #   db.execute(query, args)
-  # end
 end
 
 module Database
