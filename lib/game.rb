@@ -20,7 +20,7 @@ class Game
     return @player2 if turn_counter.even?
   end
 
-  def take_turn ############write test for this method#############
+  def take_turn
     player = current_player
     column = player.next_move(board)
     return :quit if column == :quit
@@ -31,9 +31,9 @@ class Game
 
   def winner
     winning_color = @board.color_of_connect_four
-    if @player1.color == winning_color 
-      @player1 
-    elsif @player2.color == winning_color 
+    if @player1.color == winning_color
+      @player1
+    elsif @player2.color == winning_color
       @player2
     else
       nil
@@ -43,7 +43,7 @@ class Game
   def to_s
     board.to_s
   end
-    
+
 
 end
 
