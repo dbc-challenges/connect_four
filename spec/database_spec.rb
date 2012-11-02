@@ -1,13 +1,14 @@
-require 'spec_helper'
+require_relative 'spec_helper'
 
 describe DB do
+  let(:path) { File.expand_path(File.join(File.dirname(__FILE__), '..', 'db', 'test.db')) }
   let(:db) { DB.create("test.db") }
-  after(:each) { system("rm test.db") }
+  after(:each) { system("rm #{path}") }
 
   context "when there's no database" do
     it "creates a database" do
       db
-      File.exists?("test.db").should be_true
+      File.exists?(path).should be_true
     end
 
     it "returns a new db connection" do

@@ -22,9 +22,13 @@ class ConnectFour
 
   def play
     until game.board.full? || game.board.check_four_consecutive?
-      game.next_round == "black" ? current_turn = "Player 1" : current_turn = "Player 2"
-      puts "#{current_turn}, what column do you want to play in?"
-      game.next_move(gets.chomp)
+      game.next_round == "black" ? current_turn = "#{player1.name}" : current_turn = "#{player2.name}"
+      if current_turn == "Computer"
+        game.next_move(rand(7))
+      else
+        puts "#{current_turn}, what column do you want to play in?"
+        game.next_move(gets.chomp)
+      end
     end
     puts "The game is over."
   end

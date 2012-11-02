@@ -1,4 +1,5 @@
 class Player
+  #include Database
   attr_reader :name, :twitter, :password, :id
 
   def initialize(params = {})
@@ -7,10 +8,10 @@ class Player
     @password = params[:password]
   end
 
-  def insert_to_db
+  def save
     values = [name, twitter, password]
-    if DB.handler("select * from players where twitter = #{twitter}").nil?
-      DB.handler("INSERT INTO players (name, twitter, password) VALUES (?, ?, ?);", values)
+    if db.execute("SELECT * FROM players WHERE twitter = ?", twitter).empty?
+      db.execute("INSERT INTO players (name, twitter, password) VALUES (?, ?, ?);", values)
     end
   end
 
