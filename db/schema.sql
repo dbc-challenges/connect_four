@@ -3,8 +3,8 @@ CREATE TABLE IF NOT EXISTS players (
     name VARCHAR NOT NULL,
     twitter VARCHAR NOT NULL UNIQUE,
     password VARCHAR NOT NULL,
-    created_at DATETIME,
-    updated_at DATETIME
+    created_at DEFAULT current_timestamp,
+    updated_at DEFAULT current_timestamp
 );
 
 CREATE TABLE IF NOT EXISTS games (
@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS games (
     player1 INTEGER NOT NULL,
     player2 INTEGER NOT NULL,
     winner INTEGER,
+    created_at DEFAULT current_timestamp,
+    updated_at DEFAULT current_timestamp,
     FOREIGN KEY (player1) REFERENCES Players(id),
     FOREIGN KEY (player2) REFERENCES Players(id)
 );

@@ -1,5 +1,4 @@
-#require './lib/cluster.rb'
-require './lib/cluster.rb'
+require 'spec_helper'
 
 describe Cluster do
 

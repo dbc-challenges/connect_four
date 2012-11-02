@@ -1,20 +1,23 @@
-require './lib/database.rb'
+require 'spec_helper'
 
 describe DB do
-  before(:each) { @db = DB.create("test.db") }
+  let(:db) { DB.create("test.db") }
   after(:each) { system("rm test.db") }
 
   context "when there's no database" do
     it "creates a database" do
+      db
       File.exists?("test.db").should be_true
     end
 
     it "returns a new db connection" do
-      @db.should be_an_instance_of SQLite3::Database
+      db.should be_an_instance_of SQLite3::Database
     end
 
     it "creates the users table" do
-      @db.execute("SELECT * FROM games;").should_not raise_error
+      expect {
+        db.execute("SELECT * FROM games;")
+      }.to_not raise_error
     end
   end
 

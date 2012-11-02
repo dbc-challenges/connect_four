@@ -1,5 +1,3 @@
-require './board.rb'
-
 class Game
   attr_reader :player1, :player2, :winner, :board
 
@@ -13,7 +11,7 @@ class Game
     round = next_round
     board.place_piece(column, round)
   end
-  
+
   def next_round
     @board.empty_cells.even? ? "black" : "red"
   end

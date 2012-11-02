@@ -1,4 +1,4 @@
-require './lib/player.rb'
+require 'spec_helper'
 
 describe Player do
   before(:each) { @player = Player.new({ name: "Brent", twitter: "Blah", password: "master" }) }

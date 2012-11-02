@@ -1,5 +1,4 @@
-require './lib/game.rb'
-require './lib/player.rb'
+require 'spec_helper'
 
 describe Game do
 
