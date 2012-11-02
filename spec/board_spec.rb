@@ -38,6 +38,15 @@ describe Board do
 		end
 	end
 
+	describe "#from_string" do
+		it "returns the board representation" do
+			board = Board.from_string("|.......|.......|.......|...XO..|..XOXO.|..OXXO.|")
+			board[3][0].should eq 1
+			board[3][1].should eq 2
+			board[3][2].should eq 1
+		end
+	end
+
 	describe "#color_of_connect_four" do
 		context "if there are no groups of four of the same color" do
 			it "should return nil" do

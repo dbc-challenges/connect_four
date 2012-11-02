@@ -1,8 +1,13 @@
 class Board
 	attr_reader :last_drop_column, :board
 
-	def initialize
-		@board = Array.new(7) { Array.new(6) }
+	def initialize(board = nil)
+		if board.nil?
+			@board = Array.new(7) { Array.new(6) }
+		else
+			@board = board
+		end
+
 		@last_drop_column = nil
 		@last_drop_row = nil
 		@last_drop_color = nil
@@ -20,6 +25,10 @@ class Board
 			end
 		end
 		false
+	end
+
+	def [](column)
+		self.board[column]
 	end
 
 	def full?
@@ -53,6 +62,20 @@ class Board
 			board_string << "\n"
 		end
 		board_string
+	end
+
+	def self.from_string(string)
+		board_of_rows = []
+		string[1..-1].split('|').each do |row|
+			board_of_rows << row.split('').map do |cell|
+				case cell
+				when nil then nil
+				when "X" then 1
+				when "O" then 2
+				end
+			end
+		end
+		Board.new(board_of_rows.reverse.transpose)	
 	end
 
 	private
