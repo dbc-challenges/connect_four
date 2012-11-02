@@ -107,9 +107,9 @@ describe Game do
         Board.any_instance.stub(:color_of_connect_four).and_return(2)
           @game.winner.should == player2
       end
-      it "should return a tie if there is no winner" do
+      it "should return a nil if there is no winner" do
         Board.any_instance.stub(:color_of_connect_four).and_return(nil)
-        @game.winner.should == "tie"
+        @game.winner.should == nil
       end
     end
   end

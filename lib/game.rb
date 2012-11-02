@@ -23,18 +23,30 @@ class Game
   def take_turn ############write test for this method#############
     player = current_player
     column = player.next_move(board)
+    return :quit if column == :quit
     success = @board.drop_disc!(column, player.color)
     @turn_counter += 1 if success
     return success
   end
 
   def winner
-    return @player1 if @board.color_of_connect_four == 1
-    return @player2 if @board.color_of_connect_four == 2
-    return "tie"
+    winning_color = @board.color_of_connect_four
+    if @player1.color == winning_color 
+      @player1 
+    elsif @player2.color == winning_color 
+      @player2
+    else
+      nil
+    end
   end
 
+  def to_s
+    board.to_s
+  end
+    
+
 end
+
 
 # in the UI: until game.over?, run game.take_turn
 

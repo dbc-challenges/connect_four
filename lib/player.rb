@@ -8,7 +8,12 @@ class Player
   end
 
   def next_move(board)
-    column = gets.chomp.to_i
+ 		move = gets.chomp
+ 		if move == "quit"
+ 			return :quit
+ 		else
+    	move.to_i
+    end
   end
 
   def to_s
@@ -20,6 +25,18 @@ end
 class Randall < Player
 	def next_move(board)
 		rand(1..7)
+	end
+end
+
+class CopyCat < Player
+	def next_move(board)
+		if board.last_drop_column.nil?
+			4
+		elsif board.column_full?(board.last_drop_column)
+			rand(1..7)
+		else
+			board.last_drop_column + 1
+		end
 	end
 end
 

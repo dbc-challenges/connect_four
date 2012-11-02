@@ -1,4 +1,6 @@
 class Board
+	attr_reader :last_drop_column, :board
+
 	def initialize
 		@board = Array.new(7) { Array.new(6) }
 		@last_drop_column = nil
@@ -7,7 +9,7 @@ class Board
 	end
 
 	def drop_disc!(column, color)
-		return false if column > 7 || column < 0
+		return false if column > 7 || column < 1
 		@board[column-1].each_with_index do |cell, index|
 			if cell.nil?
 				@board[column-1][index] = color
@@ -35,6 +37,22 @@ class Board
 		end
 		return @last_drop_color if four_in_column || four_in_row ||four_in_upward_diagonal || four_in_downward_diagonal
 		nil
+	end
+
+	def column_full?(column)
+    !@board[column][5].nil?
+  end
+
+	def to_s
+		board_string = ""
+		5.downto(0) do |row|
+			7.times do |column|
+				board[column][row].nil? ? piece = " " : piece = board[column][row]
+				board_string << "[ #{piece} ]"
+			end
+			board_string << "\n"
+		end
+		board_string
 	end
 
 	private
