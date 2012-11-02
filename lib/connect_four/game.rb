@@ -11,7 +11,7 @@ class Game
 
   def play
     until board.full? || board.check_four_consecutive?
-      next_round == "O" ? current_turn = "#{player1.name}" : current_turn = "#{player2.name}"
+      next_round == "X" ? current_turn = "#{player1.name}" : current_turn = "#{player2.name}"
       if current_turn == "Computer"
         next_move(rand(7))
       else
@@ -30,7 +30,7 @@ class Game
   end
 
   def next_round
-    @board.empty_cells.even? ? "O" : "X"
+    @board.empty_cells.even? ? "X" : "O"
   end
 
   def self.wins_for(player_id)
