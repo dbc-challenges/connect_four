@@ -3,7 +3,7 @@ require_relative '../lib/game.rb'
 require_relative '../lib/player.rb'
 
 def new_game
-  players = [Player.new("Human", 1), Randall.new("kunal", 2)].shuffle!
+  players = [Player.new("Human", 1), AIPlayer5.new("kunal", 2)].shuffle!
   game = Game.new(players[0], players[1])
 
   puts "WELCOME TO GAME"

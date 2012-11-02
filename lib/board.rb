@@ -64,6 +64,15 @@ class Board
     board_string
   end
 
+  def self.to_twitter_string(board)
+    #  |.......|.......|.......|.......|...XO..|..XOX..|
+    twitter_board = board.transpose
+    twitter_board.each { |index| index.map! { |elem| elem ? elem : "." }}
+    twitter_board.map! {|array| array.join}
+    twitter_string = twitter_board.join('|')
+    twitter_string = "|" + twitter_string + "|"
+  end
+
   def self.from_string(string)
     board_of_rows = []
     string[1..-1].split('|').each do |row|
@@ -132,3 +141,4 @@ class Board
   end
 
 end
+

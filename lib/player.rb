@@ -71,7 +71,7 @@ end
 class AIPlayer5 < Player
   attr_reader :board
   def next_move(board)
-    if board[3].include?(nil) && count_nil(board[3]) > 3
+    if board[3].include?(nil) && count_nil(board[3]) > 2
       4
     elsif board[2].include?(nil) && count_nil(board[2]) > 3
       3
@@ -81,9 +81,9 @@ class AIPlayer5 < Player
       2
     elsif board[5].include?(nil) && count_nil(board[5]) > 3
       6
-    elsif board[0].include?(nil) && count_nil(board[0]) > 3
+    elsif board[0].include?(nil) && count_nil(board[0]) > 4
       1
-    elsif board[6].include?(nil) && count_nil(board[6]) > 3
+    elsif board[6].include?(nil) && count_nil(board[6]) > 4
       7
     elsif board[3].include?(nil)
       4
