@@ -1,7 +1,7 @@
 class UI
   attr_reader :game
 
-  def self.start(player1, player2)
+  def self.start
     DB.create
     puts "How do you want to play today? Pick a number"
     puts "1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter)"
@@ -16,11 +16,12 @@ class UI
       puts "I will send out the message pigeon!"
       tweet = Tweet.new
       UI.create_1vsTwitter_player
+      kind = "3"
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
       UI.start
     end
-    @game = Game.new(@player1, @player2)
+    @game = Game.new(@player1, @player2, kind)
   end
 
   def self.game
@@ -61,7 +62,7 @@ class UI
      return { name: player_name, twitter: player_twitter, password: player_password }
    end
 
-   def self.player_move(current_turn)
+   def self.next_move_request(current_turn) #NAME_CHANGE from player_move
      puts "#{current_turn}, what column do you want to play in?"
      game.next_move(gets.chomp.to_i)
    end
@@ -94,19 +95,6 @@ class UI
      board_info
    end
 
-
-    # def play
-    #    until game.board.full? || game.board.check_four_consecutive?
-    #      game.next_round == "black" ? current_turn = "#{player1.name}" : current_turn = "#{player2.name}"
-    #      if current_turn == "Computer"
-    #        game.next_move(rand(7))
-    #      else
-    #        puts "#{current_turn}, what column do you want to play in?"
-    #        game.next_move(gets.chomp)
-    #      end
-    #    end
-    #    puts "The game is over."
-    #  end
-    #
 end
 
+UI.start

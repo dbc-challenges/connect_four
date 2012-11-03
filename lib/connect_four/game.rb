@@ -2,11 +2,13 @@ class Game
   include Database
   attr_reader :player1, :player2, :winner, :board
 
-  def initialize(player1, player2)
+  def initialize(player1, player2, kind)
     @player1 = player1
     @player2 = player2
     #@players = [@player1, @player2]
     @board = Board.new
+    play if kind == "1" || kind == "2"
+    play_twitter if kind == "3"
   end
 
   def play
@@ -15,9 +17,7 @@ class Game
       if current_turn == "Computer"
         next_move(rand(7))
       else
-        UI.player_move(current_turn)
-        # puts "#{current_turn}, what column do you want to play in?"
-        # next_move(gets.chomp.to_i)
+        UI.next_move_request(current_turn)
       end
       #UI.print_board
       puts UI.board_to_twitter(board.cells)
@@ -30,6 +30,26 @@ class Game
     UI.congratulations(winner)
     #save game
   end
+
+  def play_twitter
+    tweet = Tweet.new
+    status = tweet.get_status
+     TweetStream::Client.new.track(player1) do |status|
+       board.cells = UI.board_from_twitter(status.text)
+       UI.next_move_request(UI.player2.name)
+       #test board
+       if board.full? # tie
+         message = "Draw game. Play again? #dbc_c4"
+       elsif board.check_four_consecutive? #winner
+         puts "Somebody won."
+         #message = "I win! Good game. #dbc_c4"
+         #message = "You win. #dbc_c4"
+       else
+         message = '#dbc_c4'
+       end
+       tweet_board(UI.board_to_twitter(UI.game.board.cells, message))
+     end
+   end
 
   def next_move(column)
     round = next_round

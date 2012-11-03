@@ -6,6 +6,7 @@ require_relative 'ui'
 class Tweet
 
   def initialize
+    @random_tag = (('a'..'z').to_a + ('A'..'Z').to_a + (1..9).to_a).shuffle[0..2].join
     @file_path = File.expand_path(File.join(File.dirname(__FILE__) , 'oauth'))#, '..', '..', 'db', name))
     consumer_key_path = File.join(@file_path, "consumer_key.txt")
     consumer_secret_path = File.join(@file_path, "consumer_secret.txt")
@@ -38,50 +39,33 @@ class Tweet
     end
   end
 
-  def game_play
-    player2 = UI.create_player("Player 2")#get manual user info and create local user
-    player1 = track_new_game#create player from twitter
-    UI.start(player1, player2)#create game instance
-
-    TweetStream::Client.new.track(player1) do |status|
-      UI.game.board.cells = UI.board_from_twitter(status.text)
-      UI.player_move(UI.player2.name)
-      #test board
-      if UI.game.board.full? # tie
-        message = "Draw game. Play again? #dbc_c4"
-      elsif UI.game.board.check_four_consecutive? #winner
-        puts "Somebody won."
-        #message = "I win! Good game. #dbc_c4"
-        #message = "You win. #dbc_c4"
-      else
-        message = '#dbc_c4'
-      end
-      tweet_board(UI.board_to_twitter(UI.game.board.cells, message))
-    end
-  end
+  # def game_play
+  #   player2 = UI.create_player("Player 2")#get manual user info and create local user
+  #   player1 = track_new_game#create player from twitter
+  #   UI.start(player1, player2)#create game instance
+  #
+  #   TweetStream::Client.new.track(player1) do |status|
+  #     UI.game.board.cells = UI.board_from_twitter(status.text)
+  #     UI.player_move(UI.player2.name)
+  #     #test board
+  #     if UI.game.board.full? # tie
+  #       message = "Draw game. Play again? #dbc_c4"
+  #     elsif UI.game.board.check_four_consecutive? #winner
+  #       puts "Somebody won."
+  #       #message = "I win! Good game. #dbc_c4"
+  #       #message = "You win. #dbc_c4"
+  #     else
+  #       message = '#dbc_c4'
+  #     end
+  #     tweet_board(UI.board_to_twitter(UI.game.board.cells, message))
+  #   end
+  # end
 
   def tweet_board(tweet, message)
-    puts "#{player1.twitter} #{tweet} #{message}"
+    puts "#{player1.twitter} #{tweet} #{message} #{random_tag}"
     #Twitter.update("#{player1.twitter} #{tweet} #{message}")
   end
 
-  # def board_to_twitter(board_info)
-  #   board_format, row_format = "|", ""
-  #   board_info.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
-  #   row_num.times do |i|
-  #     start_i, end_i = (col_num*i), (col_num*(i+1))
-  #     board_format += row_format[start_i...end_i] + "|"
-  #   end
-  #   board_format
-  # end
-
-  # def board_from_twitter(move_string)
-  #   board_info = move_string.gsub(/\|/, "").split("")
-  #   board_info.each { |field| field.gsub!(/\./, "") }
-  #   board_info
-  # end
 
 
 end
-
-Tweet.new
