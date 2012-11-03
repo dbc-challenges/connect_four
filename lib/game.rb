@@ -41,7 +41,8 @@ class Game
   end
 
   def to_s
-    board.to_s
+    #board.to_s
+    board.to_twitter_string
   end
 
 

@@ -64,13 +64,21 @@ class Board
     board_string
   end
 
-  def self.to_twitter_string(board)
+  def to_twitter_string
     #  |.......|.......|.......|.......|...XO..|..XOX..|
     twitter_board = board.transpose
-    twitter_board.each { |index| index.map! { |elem| elem ? elem : "." }}
-    twitter_board.map! {|array| array.join}
+    twitter_board.each do |index| 
+    	index.map! do |cell| 
+	    	case cell
+	      when nil then "."
+	      when 1 then "X"
+	      when 2 then "O"
+	      end
+	    end
+    end 
+    twitter_board.map! {|array| array.reverse.join}
     twitter_string = twitter_board.join('|')
-    twitter_string = "|" + twitter_string + "|"
+    twitter_string = "|" + twitter_string.reverse + "|"
   end
 
   def self.from_string(string)
