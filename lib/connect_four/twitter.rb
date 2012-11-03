@@ -1,7 +1,7 @@
 require 'tweetstream'
 #require 'player'
 #require 'game'
-require_relative 'ui'
+#require_relative 'ui'
 
 class Tweet
 
@@ -13,51 +13,39 @@ class Tweet
     oauth_token_path = File.join(@file_path, "oauth_token.txt")
     oauth_token_secret_path = File.join(@file_path, "oauth_token_secret.txt")
 
-    Twitter.configure do |config|
-      config.consumer_key = File.read(consumer_key_path)
-      config.consumer_secret = File.read(consumer_secret_path)
-      config.oauth_token = File.read(oauth_token_path)
-      config.oauth_token_secret = File.read(oauth_token_secret_path)
-    end
-
+    Twitter.configure { |config| twit_config(config) }
+      
     TweetStream.configure do |config|
-      config.consumer_key       = File.read(consumer_key_path)
-      config.consumer_secret    = File.read(consumer_secret_path)
-      config.oauth_token        = File.read(oauth_token_path)
-      config.oauth_token_secret = File.read(oauth_token_secret_path)
-      config.auth_method        = :oauth
+      twit_config(config)
+      config.auth_method = :oauth
     end
-    game_play
+    #game_play
   end
 
-  def track_new_game
-    TweetStream::Client.new.track('#dbc_c4') do |status|
+  def twit_config(config)
+    config.consumer_key       = File.read(consumer_key_path)
+    config.consumer_secret    = File.read(consumer_secret_path)
+    config.oauth_token        = File.read(oauth_token_path)
+    config.oauth_token_secret = File.read(oauth_token_secret_path)   
+  end
+
+  def twitter_player
+    TweetStream::Client.new.track('#dbc_c4') do |status, client|
       puts "#{status.text}"
-      Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4") if "#{status.text}" == "Who wants to get demolished?"
-      player1 = Player.new(status.user[:name], status.user[:screen_name], "password")
-      return player1
+      puts "Game on! #dbc_c4" if "#{status.text}" == "Who wants to get demolished?"
+      client.stop
+      #Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4") if "#{status.text}" == "Who wants to get demolished?"
+      return TwitterPlayer.new({name: status.user[:name], twitter: status.user[:screen_name], piece: 'X'})
     end
   end
 
-  # def game_play
-  #   player2 = UI.create_player("Player 2")#get manual user info and create local user
-  #   player1 = track_new_game#create player from twitter
-  #   UI.start(player1, player2)#create game instance
-  #
-  #   TweetStream::Client.new.track(player1) do |status|
-  #     UI.game.board.cells = UI.board_from_twitter(status.text)
-  #     UI.player_move(UI.player2.name)
-  #     #test board
-  #     if UI.game.board.full? # tie
-  #       message = "Draw game. Play again? #dbc_c4"
-  #     elsif UI.game.board.check_four_consecutive? #winner
-  #       puts "Somebody won."
-  #       #message = "I win! Good game. #dbc_c4"
-  #       #message = "You win. #dbc_c4"
-  #     else
-  #       message = '#dbc_c4'
-  #     end
-  #     tweet_board(UI.board_to_twitter(UI.game.board.cells, message))
+  # def twitter_move_relay
+  #   TweetStream::Client.new.track("#{player1.twitter}") do |status, client|
+  #     puts "#{status.text}"
+  #     #look for incoming move
+  #     #Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4") if "#{status.text}" == "Who wants to get demolished?"
+  #     client.stop
+  #     return "#{status.text}"
   #   end
   # end
 
@@ -65,6 +53,8 @@ class Tweet
     puts "#{player1.twitter} #{tweet} #{message} #{random_tag}"
     #Twitter.update("#{player1.twitter} #{tweet} #{message}")
   end
+
+
 
 
 

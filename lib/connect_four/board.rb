@@ -29,6 +29,16 @@ class Board
     cells[position] = piece
   end
 
+  def to_s
+    board_format, row_format = "|", ""
+    cells.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
+    row_num.times do |i|
+      start_i, end_i = (col_num*i), (col_num*(i+1))
+      board_format += row_format[start_i...end_i] + "|"
+    end
+    board_format
+  end
+
   def full?
     cells.all? {|cell| cell != "" }
   end

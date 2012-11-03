@@ -1,5 +1,6 @@
 class UI
-  attr_reader :game
+
+  attr_reader :game, :tweet
 
   def self.start
     DB.create
@@ -28,7 +29,6 @@ class UI
     @game
   end
 
-
   def self.create_1vs1_player
     puts "Who wants to be first?"
     @player1 = Player.new(create_player("Player 1").merge(:piece => 'X'))
@@ -46,53 +46,87 @@ class UI
   end
 
   def self.create_1vsTwitter_player
-    @player1 = tweet.track_new_game
-    @player2 = Player.new(create_player("Player"))
+    @tweet = Tweet.new
+    @player1 = tweet.twitter_player
+    @player2 = ComputerPlayer.new({name: "MCP", piece: 'O'})
+    #@player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     #@player2.save
   end
 
+  def self.board_display
+    if @player1.class == TwitterPlayer
+      game.board.to_s
+      #tweet_board
+    else 
+      print_board
+    end
+  end
 
   def self.create_player(player)
-     puts "Enter username for #{player}"
-     player_name = gets.chomp.capitalize
-     puts "Enter your twitter account"
-     player_twitter = gets.chomp
-     puts "Enter your password"
-     player_password = gets.chomp
-     { name: player_name, twitter: player_twitter, password: player_password }
-   end
+    puts "Enter username for #{player}"
+    player_name = gets.chomp.capitalize
+    puts "Enter your twitter account"
+    player_twitter = gets.chomp
+    puts "Enter your password"
+    player_password = gets.chomp
+    { name: player_name, twitter: player_twitter, password: player_password }
+  end
 
-   def self.next_move_request(current_turn) #NAME_CHANGE from player_move
-     puts "#{current_turn}, what column do you want to play in?"
-     game.next_move(gets.chomp.to_i)
-   end
+  # def self.next_move_request(current_player) #NAME_CHANGE from player_move
+  #   puts "#{current_player}, what column do you want to play in?"
+  #   game.next_move(gets.chomp.to_i)
+  # end
 
-   def self.congratulations(player)
-     if player == nil
-       puts "Draw."
-     else
-       puts "Congratulations #{player.name}. You are a real winner."
-     end
-   end
+  def self.congratulations(player)
+    if @player1.class == TwitterPlayer
+      tag = twitter_tag
+      tweet_board(game.board.to_s, tag)
+    else
+      print_board
+      if player == nil
+        puts "Draw."
+      elsif player.name == "MCP"
+        puts "You lose, loser."
+      else
+        puts "Congratulations #{player.name}. You are a real winner."
+      end
+    end
+  end
 
-   def self.print_board
-     game.board.rows.each { |row| p row }
-   end
+  def self.print_board
+    puts game.board.to_s #needs vertical formatting
+    #game.board.rows.each { |row| p row }
+  end
 
-   def self.board_to_twitter(board_info)
-     board_format, row_format = "|", ""
-     board_info.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
-     game.board.row_num.times do |i|
-       start_i, end_i = (game.board.col_num*i), (game.board.col_num*(i+1))
-       board_format += row_format[start_i...end_i] + "|"
-     end
-     board_format
-   end
+  # def self.board_to_twitter(board_info)
+  #   board_format, row_format = "|", ""
+  #   board_info.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
+  #   game.board.row_num.times do |i|
+  #     start_i, end_i = (game.board.col_num*i), (game.board.col_num*(i+1))
+  #     board_format += row_format[start_i...end_i] + "|"
+  #   end
+  #   board_format
+  # end
 
-   def self.board_from_twitter(move_string)
-     board_info = move_string.gsub(/\|/, "").split("")
-     board_info.each { |field| field.gsub!(/\./, "") }
-     board_info
-   end
+  # def self.board_from_twitter(move_string)
+  #   board_info = move_string.gsub(/\|/, "").split("")
+  #   board_info.each { |field| field.gsub!(/\./, "") }
+  #   board_info
+  # end
+
+  def twitter_tag
+    if board.full? # tie
+      message = "Draw game. Play again? #dbc_c4"
+    elsif board.check_four_consecutive? #winner
+      if game.board.empty_cells.even?
+        message = "I win! Good game. #dbc_c4"
+      else
+        message = "You win. #dbc_c4"
+      end
+    else
+      message = '#dbc_c4'
+    end
+    return message
+  end
 
 end

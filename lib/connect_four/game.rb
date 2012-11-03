@@ -13,7 +13,8 @@ class Game
     until over?
       board.place_piece(current_player.move.to_i, current_player.piece)
       toggle_player unless over?
-      puts UI.board_to_twitter(board.cells)
+      UI.board_display unless over?
+      #puts UI.board_to_twitter(board.cells)
     end
     if board.full?
       winner = nil
@@ -59,10 +60,6 @@ class Game
   def over?
     board.full? || board.check_four_consecutive?
   end
-
-  # def next_round
-  #   @board.empty_cells.even? ? "X" : "O"
-  # end
 
   def self.wins_for(player_id)
     db.execute("SELECT COUNT(*) FROM games WHERE winner = ?", player_id).first
