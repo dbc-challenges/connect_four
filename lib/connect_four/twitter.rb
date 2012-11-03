@@ -1,6 +1,7 @@
 require 'tweetstream'
 #require 'player'
 #require 'game'
+require_relative 'ui'
 
 class Tweet
 
@@ -29,7 +30,8 @@ class Tweet
   end
 
   def track_new_game
-    TweetStream::Client.new.track('bieber') do |status|
+    TweetStream::Client.new.track('#dbc_c4') do |status|
+      puts "#{status.text}"
       Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4") if "#{status.text}" == "Who wants to get demolished?"
       player1 = Player.new(status.user[:name], status.user[:screen_name], "password")
       return player1
@@ -37,20 +39,30 @@ class Tweet
   end
 
   def game_play
-    player2 = UI.create_player
-    player1 = track_new_game
-    UI.start(player1, player2)
+    player2 = UI.create_player("Player 2")#get manual user info and create local user
+    player1 = track_new_game#create player from twitter
+    UI.start(player1, player2)#create game instance
+
     TweetStream::Client.new.track(player1) do |status|
       UI.game.board.cells = UI.board_from_twitter(status.text)
       UI.player_move(UI.player2.name)
-      tweet_board(UI.board_to_twitter(UI.game.board.cells))
+      #test board
+      if UI.game.board.full? # tie
+        message = "Draw game. Play again? #dbc_c4"
+      elsif UI.game.board.check_four_consecutive? #winner
+        puts "Somebody won."
+        #message = "I win! Good game. #dbc_c4"
+        #message = "You win. #dbc_c4"
+      else
+        message = '#dbc_c4'
+      end
+      tweet_board(UI.board_to_twitter(UI.game.board.cells, message))
     end
   end
 
-  def tweet_board(tweet, message = '#dbc-c4')
-
+  def tweet_board(tweet, message)
     puts "#{player1.twitter} #{tweet} #{message}"
-    #Twitter.update("#{player1.twitter} #{tweet} #dbc_c4")
+    #Twitter.update("#{player1.twitter} #{tweet} #{message}")
   end
 
   # def board_to_twitter(board_info)
@@ -69,14 +81,7 @@ class Tweet
   #   board_info
   # end
 
-  #when you receive a tweet, create a player2 and respond with game on.
-
-  #initiate a game with two players
-
-  #start listening for the other player's tweets and look for first move.
-
-  #when you receive the first move tweet plug it into game and prompt player for next move.
-
-  #format next move and tweet
 
 end
+
+Tweet.new

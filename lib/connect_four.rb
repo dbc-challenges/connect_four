@@ -6,5 +6,5 @@ require_relative 'connect_four/ui'
 require_relative 'connect_four/twitter'
 
 #
-UI.start
-UI.game.play
+# UI.start
+# UI.game.play

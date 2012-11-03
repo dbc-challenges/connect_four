@@ -22,8 +22,12 @@ class Game
       #UI.print_board
       puts UI.board_to_twitter(board.cells)
     end
-    winner = current_turn
-    UI.congratulations(current_turn)
+    if board.full?
+      winner = nil
+    else
+      winner = current_turn
+    end
+    UI.congratulations(winner)
     #save game
   end
 

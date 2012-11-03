@@ -1,7 +1,7 @@
 class UI
   attr_reader :game
 
-  def self.start(@player1, @player2)
+  def self.start(player1, player2)
     DB.create
     puts "How do you want to play today? Pick a number"
     puts "1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter)"
@@ -27,6 +27,7 @@ class UI
     @game
   end
 
+
   def self.create_1vs1_player
     puts "Who wants to be first?"
     @player1 = Player.new(create_player("Player 1"))
@@ -49,6 +50,7 @@ class UI
     @player2.save
   end
 
+
   def self.create_player(player)
      puts "Enter username for #{player}"
      player_name = gets.chomp.capitalize
@@ -60,34 +62,37 @@ class UI
    end
 
    def self.player_move(current_turn)
-       puts "#{current_turn}, what column do you want to play in?"
-       game.next_move(gets.chomp.to_i)
-     end
+     puts "#{current_turn}, what column do you want to play in?"
+     game.next_move(gets.chomp.to_i)
+   end
 
-     def self.congratulations(player)
-
-       puts "Congratulations, #{player}. You are a real winner."
+   def self.congratulations(player)
+     if player == nil
+       puts "Draw."
+     else
+       puts "Congratulations #{player}. You are a real winner."
      end
+   end
 
-     def self.print_board
-       game.board.rows.each { |row| p row }
-     end
+   def self.print_board
+     game.board.rows.each { |row| p row }
+   end
 
-     def self.board_to_twitter(board_info)
-       board_format, row_format = "|", ""
-       board_info.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
-       game.board.row_num.times do |i|
-         start_i, end_i = (game.board.col_num*i), (game.board.col_num*(i+1))
-         board_format += row_format[start_i...end_i] + "|"
-       end
-       board_format + ' #dbc-c4'
+   def self.board_to_twitter(board_info)
+     board_format, row_format = "|", ""
+     board_info.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
+     game.board.row_num.times do |i|
+       start_i, end_i = (game.board.col_num*i), (game.board.col_num*(i+1))
+       board_format += row_format[start_i...end_i] + "|"
      end
+     board_format
+   end
 
-     def self.board_from_twitter(move_string)
-       board_info = move_string.gsub(/\|/, "").split("")
-       board_info.each { |field| field.gsub!(/\./, "") }
-       board_info
-     end
+   def self.board_from_twitter(move_string)
+     board_info = move_string.gsub(/\|/, "").split("")
+     board_info.each { |field| field.gsub!(/\./, "") }
+     board_info
+   end
 
 
     # def play
