@@ -18,3 +18,4 @@ tmp
 _yardoc
 doc/
 oauth/
+db/connectfour.db

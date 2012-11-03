@@ -16,12 +16,12 @@ class UI
       puts "I will send out the message pigeon!"
       tweet = Tweet.new
       UI.create_1vsTwitter_player
-      kind = "3"
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
       UI.start
     end
-    @game = Game.new(@player1, @player2, kind)
+    @game = Game.new(@player1, @player2)
+    @game.play
   end
 
   def self.game
@@ -31,17 +31,17 @@ class UI
 
   def self.create_1vs1_player
     puts "Who wants to be first?"
-    @player1 = Player.new(create_player("Player 1"))
+    @player1 = Player.new(create_player("Player 1").merge(:piece => 'X'))
     @player1.save
     puts "Last but not least:"
-    @player2 = Player.new(create_player("Player 2"))
+    @player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     @player2.save
   end
 
   def self.create_1vsPC_player
     puts "Whose name should I write on you gravestone?"
     @player1 = computer_player
-    @player2 = Player.new(create_player("the dead guy"))
+    @player2 = Player.new(create_player("the dead guy").merge(:piece => 'O'))
     @player2.save
   end
 
@@ -59,7 +59,7 @@ class UI
      player_twitter = gets.chomp
      puts "Enter your password"
      player_password = gets.chomp
-     return { name: player_name, twitter: player_twitter, password: player_password }
+     { name: player_name, twitter: player_twitter, password: player_password }
    end
 
    def self.next_move_request(current_turn) #NAME_CHANGE from player_move
@@ -96,5 +96,3 @@ class UI
    end
 
 end
-
-UI.start

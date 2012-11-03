@@ -1,12 +1,13 @@
 class Player
  # include Database
 
-  attr_reader :name, :twitter, :password, :id
+  attr_reader :name, :twitter, :password, :id, :piece
 
   def initialize(params = {})
     @name = params[:name]
     @twitter = params[:twitter]
     @password = params[:password]
+    @piece = params[:piece]
   end
 
   def save
@@ -16,5 +17,12 @@ class Player
     end
   end
 
+  def move
+    puts "#{name}, what column do you want to play in?"
+    gets.chomp.to_i
+  end
 
+  def to_s
+    name
+  end
 end
