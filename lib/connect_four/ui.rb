@@ -39,7 +39,6 @@ class UI
   end
 
   def self.create_1vsPC_player
-    #puts "Whose name should I write on you gravestone?"
     @player1 = ComputerPlayer.new({name: "MCP", piece: 'X'})
     @player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     @player2.save
@@ -47,10 +46,9 @@ class UI
 
   def self.create_1vsTwitter_player
     @tweet = Tweet.new
-    @player1 = tweet.twitter_player
+    @player1 = TwitterPlayer.from_twitter
     @player2 = ComputerPlayer.new({name: "MCP", piece: 'O'})
     #@player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
-    #@player2.save
   end
 
   def self.board_display
