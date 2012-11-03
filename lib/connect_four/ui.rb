@@ -39,16 +39,16 @@ class UI
   end
 
   def self.create_1vsPC_player
-    puts "Whose name should I write on you gravestone?"
-    @player1 = computer_player
-    @player2 = Player.new(create_player("the dead guy").merge(:piece => 'O'))
+    #puts "Whose name should I write on you gravestone?"
+    @player1 = ComputerPlayer.new({name: "MCP", piece: 'X'})
+    @player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     @player2.save
   end
 
   def self.create_1vsTwitter_player
     @player1 = tweet.track_new_game
     @player2 = Player.new(create_player("Player"))
-    @player2.save
+    #@player2.save
   end
 
 
@@ -71,7 +71,7 @@ class UI
      if player == nil
        puts "Draw."
      else
-       puts "Congratulations #{player}. You are a real winner."
+       puts "Congratulations #{player.name}. You are a real winner."
      end
    end
 

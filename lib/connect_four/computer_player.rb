@@ -4,8 +4,8 @@ class ComputerPlayer
 
   def initialize(params = {})
     @name = params[:name]
-    @twitter = params[:twitter]
-    @password = params[:password]
+    # @twitter = params[:twitter]
+    # @password = params[:password]
     @piece = params[:piece]
   end
 
