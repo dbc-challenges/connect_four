@@ -15,7 +15,6 @@ class UI
       create_1vsPC_player
     when "3"
       puts "I will send out the message pigeon!"
-      tweet = Tweet.new
       create_1vsTwitter_player
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
