@@ -19,7 +19,7 @@ class ComputerPlayer
     first_row = [35, 36, 37, 38, 39, 40, 41]
     first_row.each do |position|
       until UI.game.board.cells[position].empty? || position < 0
-        position -= UI.game.board.col_num
+        position -= 7
       end
       @available_moves << position unless position < 0
     end
@@ -28,7 +28,6 @@ class ComputerPlayer
 
   def rate_all_cells
     available_moves.each do |move|
-    	#puts move
       cell_rating_left(move)
       cell_rating_right(move)
     end
@@ -36,16 +35,11 @@ class ComputerPlayer
   end
 
   def cell_rating_left(position)
-    left_cell = UI.game.board.cells[position-1]
+    left_cell = UI.game.board.cells[position - 1]
     unless [35, 28, 21, 14, 7, 0].include?(position)
       if left_cell == opponent_piece
-
-      	puts positions_ratings[(position%7)+1].inspect
-        #positions_ratings[(position%7)+1] += 2  
-
- 				# ^^^^^^^^for some reason this is nil ^^^^^^^^^^^
-
-        # cell_rating_left2(position) unless [36, 29, 22, 15, 8, 1].include?(position)
+        positions_ratings[(position%7)+1] += 2  
+        cell_rating_left2(position) unless [36, 29, 22, 15, 8, 1].include?(position)
       else
         positions_ratings[position%7+1] ||= 0
       end
@@ -92,8 +86,7 @@ class ComputerPlayer
   def move
     rate_all_cells
     play_column = positions_ratings.max_by {|k, v| v}.first.to_i
-    #board.place_piece(play_column, "black")
-    positions_ratings.clear
+    positions_ratings = { 1=>0, 2=>0, 3=>0, 4=>0, 5=>0, 6=>0, 7=>0}
     return play_column
   end
 
