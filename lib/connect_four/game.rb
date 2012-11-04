@@ -11,10 +11,9 @@ class Game
 
   def play
     until over?
-      board.place_piece(current_player.move.to_i, current_player.piece)
+      board.place_piece(current_player.move, current_player.piece)
       toggle_player unless over?
       UI.board_display unless over?
-      #puts UI.board_to_twitter(board.cells)
     end
     if board.full?
       winner = nil

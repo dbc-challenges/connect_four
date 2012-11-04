@@ -45,19 +45,29 @@ class UI
   end
 
   def self.create_1vsTwitter_player
-    @tweet = Tweet.new
-    @player1 = TwitterPlayer.from_twitter
+    #@tweet = Tweet.new
     @player2 = ComputerPlayer.new({name: "MCP", piece: 'O'})
     #@player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
+    @player1 = TwitterPlayer.from_twitter
+    
   end
 
   def self.board_display
-    if @player1.class == TwitterPlayer
-      game.board.to_s
-      #tweet_board
-    else 
+    if game.current_player == @player1
+      if @player1.class == TwitterPlayer
+        puts game.board.to_s
+        tweet_board(game.board.to_s, twitter_tag)
+      else 
+        print_board
+      end
+    else
       print_board
     end
+  end
+
+  def self.tweet_board(tweet, message)
+    puts "@#{@player1.twitter} #{tweet} #{message} #{@player1.random_tag}"
+    Twitter.update("@#{@player1.twitter} #{tweet} #{message} #{@player1.random_tag}")
   end
 
   def self.create_player(player)
@@ -70,10 +80,20 @@ class UI
     { name: player_name, twitter: player_twitter, password: player_password }
   end
 
-  # def self.next_move_request(current_player) #NAME_CHANGE from player_move
-  #   puts "#{current_player}, what column do you want to play in?"
-  #   game.next_move(gets.chomp.to_i)
-  # end
+  def self.twitter_tag
+    if game.board.full? # tie
+      message = "Draw game. Play again? #dbc_c4"
+    elsif game.board.check_four_consecutive? #winner
+      if game.board.empty_cells.even?
+        message = "I win! Good game. #dbc_c4"
+      else
+        message = "You win. #dbc_c4"
+      end
+    else
+      message = '#dbc_c4'
+    end
+    return message
+  end
 
   def self.congratulations(player)
     if @player1.class == TwitterPlayer
@@ -92,7 +112,12 @@ class UI
   end
 
   def self.print_board
-    puts game.board.to_s #needs vertical formatting
+    #puts game.board.to_s #needs vertical formatting
+    board_array = game.board.to_s.split('|')
+    #p board_array
+    board_array.each do |row|
+      puts "|#{row}|" unless row == ""
+    end
     #game.board.rows.each { |row| p row }
   end
 
@@ -112,19 +137,6 @@ class UI
   #   board_info
   # end
 
-  def twitter_tag
-    if board.full? # tie
-      message = "Draw game. Play again? #dbc_c4"
-    elsif board.check_four_consecutive? #winner
-      if game.board.empty_cells.even?
-        message = "I win! Good game. #dbc_c4"
-      else
-        message = "You win. #dbc_c4"
-      end
-    else
-      message = '#dbc_c4'
-    end
-    return message
-  end
+
 
 end
