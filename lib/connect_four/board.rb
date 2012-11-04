@@ -18,12 +18,14 @@ class Board
 
   def place_piece(column, piece)
     position = (col_num * (row_num - 1)) + (column - 1)
-    until cells[position].empty?
-      if position < 0
-        puts "That column is full. Choose again."
-        #game.play
-      else
-        position -= col_num
+    if cells[position].empty? == false
+      until cells[position].empty?
+        if position < 0
+          puts "That column is full. Choose again."
+          UI.game.play
+        else
+          position -= col_num
+        end
       end
     end
     cells[position] = piece
@@ -115,31 +117,13 @@ class Board
      end
    end
 
-  # def diagonal_indexes(direction)
-  #   start_indexes = get_start_indexes_to_left(4)
-  #   leap = col_num + 1 if direction == "to_right"
-  #   leap = col_num - 1 if direction == "to_left"
-  #   start_indexes.map do |index|
-  #     diagonal = []
-  #     while true
-  #       diagonal << index
-  #       index += leap
-  #       row, column = row_index_number(index), column_index_number(index)
-  #       break if (row == row_num || column == 0) && direction == "to_right"
-  #       break if (row == row_num || column == col_num-1) && direction == "to_left"
-  #     end
-  #     diagonal
-  #   end
-  # end
 
   def diagonals
     (diagonal_indexes_to_right + diagonal_indexes_to_left).map {|diagonal| diagonal.map { |i| i = cells[i]}}
-    # (diagonal_indexes("to_right") + diagonal_indexes("to_left")).map {|diagonal| diagonal.map { |i| i = cells[i]}}
   end
 
 
   def check_four_consecutive?
-    # (columns + rows + diagonals).any? { |group| group.four_consecutive? }
     (columns + rows + diagonals).any? { |lines| four_consecutive?(lines) }
   end
 

@@ -38,7 +38,7 @@ attr_reader :name, :twitter, :piece, :random_tag, :id
     TweetStream::Client.new.track('#dbc_c4') do |status, client|
       puts "id = #{status.user[:id]}, text = #{status.text}"
       text = status.text.gsub(/#.*/, "").strip
-      if text == "c"
+      if text == "Who wants to get demolished?"
         client.stop
         puts "@#{status.user[:screen_name]} Game on! #dbc_c4 #{@random_tag}"
         Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4 #{@random_tag}")
@@ -49,19 +49,14 @@ attr_reader :name, :twitter, :piece, :random_tag, :id
 
   def move
   	board = to_a(board_as_string)
-    #p board
     column = parsed_board(board)
-    #puts column
     return column
-    #rand(7)
   end
 
   def board_as_string
     TweetStream::Client.new.follow("#{@id}") do |status, client|
-      #puts "#{status.text}"
       raw_board = status.text.gsub!(/#.*/, "")
       board = raw_board.match(/[^@\w*](.*)/).to_s.strip
-      #puts board
       client.stop
       return board
     end
@@ -72,52 +67,16 @@ attr_reader :name, :twitter, :piece, :random_tag, :id
     board_as_array 
     board_as_array.each_with_index do |cell, index|
       if cell != UI.game.board.cells[index]
-       # puts "not equal"
-        #puts "#{cell} at #{index}"
         result = (index % 7) + 1
       end
     end
     return result
   end
 
-
-
-
-    # difference = board_as_array - UI.game.board.cells
-    # puts difference
-    # difference.each_with_index do |cell, index|
-    #   puts cell
-    #   if cell != ""
-    #     puts "different #{index}"
-    #     result =  (index + 1) % 7
-    #   end
-    #   #return result
-    # end
-    # return result
-    #compare incoming board to old board to find the difference in column
-
-
-#@player2 |.......|.......|.......|.......|.......|..O....| #dbc_c4
-
   def to_a(move_string)
     board_info = move_string.gsub(/\|/, "").split("")
     board_info.each { |field| field.gsub!(/\./, "") }
     board_info
   end
-
-  def tweet_board(tweet, message)
-    puts "#{player1.twitter} #{tweet} #{message} #{random_tag}"
-    #Twitter.update("#{player1.twitter} #{tweet} #{message}")
-  end
-
-  # def twitter_player
-  #   TweetStream::Client.new.track('#dbc_c4') do |status, client|
-  #     puts "#{status.text}"
-  #     puts "Game on! #dbc_c4" if "#{status.text}" == "Who wants to get demolished?"
-  #     client.stop
-  #     #Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4") if "#{status.text}" == "Who wants to get demolished?"
-  #     return TwitterPlayer.new({name: status.user[:name], twitter: status.user[:screen_name], piece: 'X'})
-  #   end
-  # end
 
 end

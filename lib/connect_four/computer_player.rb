@@ -4,12 +4,10 @@ class ComputerPlayer
 
   def initialize(params = {})
     @name = params[:name]
-    # @twitter = params[:twitter]
-    # @password = params[:password]
     @piece = params[:piece]
   end
 
   def move
-    rand(7)
+    rand(7) + 1
   end
 end

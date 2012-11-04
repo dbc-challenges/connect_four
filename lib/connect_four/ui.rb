@@ -9,17 +9,17 @@ class UI
     case gets.chomp
     when "1"
       puts "Good choice!"
-      UI.create_1vs1_player
+      create_1vs1_player
     when "2"
       puts "How dare you! I will demolish you!"
-      UI.create_1vsPC_player
+      create_1vsPC_player
     when "3"
       puts "I will send out the message pigeon!"
       tweet = Tweet.new
-      UI.create_1vsTwitter_player
+      create_1vsTwitter_player
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
-      UI.start
+      start
     end
     @game = Game.new(@player1, @player2)
     @game.play
@@ -45,7 +45,6 @@ class UI
   end
 
   def self.create_1vsTwitter_player
-    #@tweet = Tweet.new
     @player2 = ComputerPlayer.new({name: "MCP", piece: 'O'})
     #@player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     @player1 = TwitterPlayer.from_twitter
@@ -112,31 +111,10 @@ class UI
   end
 
   def self.print_board
-    #puts game.board.to_s #needs vertical formatting
     board_array = game.board.to_s.split('|')
-    #p board_array
     board_array.each do |row|
       puts "|#{row}|" unless row == ""
     end
-    #game.board.rows.each { |row| p row }
   end
-
-  # def self.board_to_twitter(board_info)
-  #   board_format, row_format = "|", ""
-  #   board_info.each { |field| field == "" ? (row_format += ".") : (row_format += field) }
-  #   game.board.row_num.times do |i|
-  #     start_i, end_i = (game.board.col_num*i), (game.board.col_num*(i+1))
-  #     board_format += row_format[start_i...end_i] + "|"
-  #   end
-  #   board_format
-  # end
-
-  # def self.board_from_twitter(move_string)
-  #   board_info = move_string.gsub(/\|/, "").split("")
-  #   board_info.each { |field| field.gsub!(/\./, "") }
-  #   board_info
-  # end
-
-
 
 end
