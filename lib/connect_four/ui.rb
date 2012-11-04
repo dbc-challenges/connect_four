@@ -2,10 +2,10 @@ class UI
 
   attr_reader :game, :tweet
 
-  def self.start
+  def self.start(start_message = "Welcome to Connect Four! Pick a number")
     DB.create
-    puts "How do you want to play today? Pick a number"
-    puts "1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter)"
+    puts start_message
+    puts "0 - (quit), 1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter)"
     case gets.chomp
     when "1"
       puts "Good choice!"
@@ -16,6 +16,9 @@ class UI
     when "3"
       puts "I will send out the message pigeon!"
       create_1vsTwitter_player
+    when "0"
+      puts "Bye!"
+      return 
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
       start

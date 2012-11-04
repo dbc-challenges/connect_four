@@ -1,7 +1,7 @@
 class Player
  # include Database
 
-  attr_reader :name, :twitter, :password, :id, :piece
+  attr_reader :name, :twitter, :password, :piece
 
   def initialize(params = {})
     @name = params[:name]
@@ -15,6 +15,10 @@ class Player
     if DB.handler("SELECT * FROM players WHERE twitter = ?", twitter).empty?
       DB.handler("INSERT INTO players (name, twitter, password) VALUES (?, ?, ?);", values)
     end
+  end
+  
+  def id
+    @id = DB.handler("SELECT id FROM players WHERE twitter = #{@twitter}")
   end
 
   def move
