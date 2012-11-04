@@ -18,16 +18,17 @@ class Board
 
   def place_piece(column, piece)
     position = (col_num * (row_num - 1)) + (column - 1)
-    if cells[position].empty? == false
+    #if cells[position].empty? == false
       until cells[position].empty?
         if position < 0
           puts "That column is full. Choose again."
           UI.game.play
+          break
         else
           position -= col_num
         end
       end
-    end
+    #end
     cells[position] = piece
   end
 
