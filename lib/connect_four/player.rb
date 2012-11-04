@@ -1,19 +1,28 @@
 class Player
-  #include Database
-  attr_reader :name, :twitter, :password, :id
+ # include Database
+
+  attr_reader :name, :twitter, :password, :id, :piece
 
   def initialize(params = {})
     @name = params[:name]
     @twitter = params[:twitter]
     @password = params[:password]
+    @piece = params[:piece]
   end
 
   def save
     values = [name, twitter, password]
-    if db.execute("SELECT * FROM players WHERE twitter = ?", twitter).empty?
-      db.execute("INSERT INTO players (name, twitter, password) VALUES (?, ?, ?);", values)
+    if DB.handler("SELECT * FROM players WHERE twitter = ?", twitter).empty?
+      DB.handler("INSERT INTO players (name, twitter, password) VALUES (?, ?, ?);", values)
     end
   end
 
+  def move
+    puts "#{name}, what column do you want to play in?"
+    gets.chomp.to_i
+  end
 
+  def to_s
+    name
+  end
 end

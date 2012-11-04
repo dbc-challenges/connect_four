@@ -9,40 +9,30 @@ class Game
     @board = Board.new
   end
 
-  def start!
-    while !over?
-      if board.place(current_player.move)
-        toggle_player
-      else
-        puts "invalid move"
-      end
+  def play
+    until over?
+      board.place_piece(current_player.move, current_player.piece)
+      toggle_player unless over?
+      UI.board_display unless over?
     end
-    puts board.winner || "Tie game!"
-  end
-
-  def next_move(column)
-    round = next_round
-    board.place_piece(column, round)
-  end
-
-  def next_round
-    @board.empty_cells.even? ? "black" : "red"
-  end
-
-  def current_player
-    @players.first
+    if board.full?
+      winner = nil
+    else
+      winner = current_player
+    end
+    UI.congratulations(winner)
   end
 
   def toggle_player
     @players.rotate!
   end
 
-  def save
-
+  def current_player
+    @players.first
   end
 
   def over?
-    board.full? || board.four_in_a_row?
+    board.full? || board.check_four_consecutive?
   end
 
   def self.wins_for(player_id)
@@ -57,3 +47,4 @@ class Game
     db.execute("SELECT COUNT(*) FROM games WHERE player1 = ? OR player2 = ? AND winner IS NULL", Array.new(2, player_id)).first
   end
 end
+
