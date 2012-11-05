@@ -42,7 +42,7 @@ class TwitterPlayer
         client.stop
         puts "@#{status.user[:screen_name]} Game on! #dbc_c4 #{@random_tag}"
         Twitter.update("@#{status.user[:screen_name]} Game on! #dbc_c4 #{@random_tag}")
-        return TwitterPlayer.new({name: status.user[:name], twitter: status.user[:screen_name], piece: 'X', id: status.user[:id]}, @random_tag)
+        return TwitterPlayer.new({name: status.user[:name], twitter: status.user[:screen_name], piece: 'O', id: status.user[:id]}, @random_tag)
       end
     end
   end
