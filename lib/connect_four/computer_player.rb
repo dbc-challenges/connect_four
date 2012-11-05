@@ -76,11 +76,26 @@ class ComputerPlayer
   def cell_rating_bottom(position)
     unless [35, 36, 37, 38, 39, 40, 41].include?(position)
       bottom_cell = UI.game.board.cells[position+7]
-      if bottom_cell == opponent_piece
-        positions_ratings[position%7+1] = 2
-    else
-      positions_ratings[position%7+1] ||= 0
+      if bottom_cell == "red"
+        positions_ratings[position%7+1] += 2
+        cell_rating_bottom2(position) unless [28, 29, 30, 31, 32, 33, 34].include?(position)
       end
+    end
+    positions_ratings[position%7+1]
+  end
+
+  def cell_rating_bottom2(position)
+    bottom_cell2 = UI.game.board.cells[position+14]
+    if bottom_cell2 == "red"
+      positions_ratings[position%7+1] += 4
+      cell_rating_bottom3(position) unless [22, 23, 24, 25, 26, 27].include?(position)
+    end
+  end
+
+  def cell_rating_bottom3(position)
+    bottom_cell3 = UI.game.board.cells[position+21]
+    if bottom_cell3 == "red"
+      positions_ratings[position%7+1] += 8
     end
   end
 
