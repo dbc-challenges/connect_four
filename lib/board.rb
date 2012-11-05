@@ -71,8 +71,8 @@ class Board
     	index.map! do |cell| 
 	    	case cell
 	      when nil then "."
-	      when 1 then "X"
-	      when 2 then "O"
+	      when 1 then "O"
+	      when 2 then "X"
 	      end
 	    end
     end 
@@ -87,8 +87,8 @@ class Board
       board_of_rows << row.split('').map do |cell|
         case cell
         when nil then nil
-        when "X" then 1
-        when "O" then 2
+        when "O" then 1
+        when "X" then 2
         end
       end
     end
