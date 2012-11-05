@@ -16,4 +16,5 @@ describe Player do
       player.password.should eq "master"
     end
   end
+  
 end

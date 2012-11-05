@@ -1,7 +1,7 @@
 require 'tweetstream'
 
 class TwitterPlayer
-attr_reader :name, :twitter, :piece, :random_tag, :id
+  attr_reader :name, :twitter, :piece, :random_tag, :id
 
   def initialize(options={}, tag)
   	@name = options[:name]

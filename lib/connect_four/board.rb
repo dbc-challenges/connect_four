@@ -17,18 +17,24 @@ class Board
   end
 
   def place_piece(column, piece)
-    position = (col_num * (row_num - 1)) + (column - 1)
-    #if cells[position].empty? == false
-      until cells[position].empty?
-        if position < 0
-          puts "That column is full. Choose again."
-          UI.game.play
-          break
-        else
-          position -= col_num
-        end
+    if column > col_num
+      puts "That column number is too big. Choose again."
+      UI.game.play
+    elsif column == "".to_i
+      puts "This is an invalid input."
+      UI.game.play
+    else
+      position = (col_num * (row_num - 1)) + (column - 1)
+    end 
+    until cells[position].empty?
+      if position < 0
+        puts "That column is full. Choose again."
+        UI.game.play
+        break
+      else
+        position -= col_num
       end
-    #end
+    end
     cells[position] = piece
   end
 
@@ -88,6 +94,7 @@ class Board
     index % col_num
   end
 
+# DRY? I was not able to make these two dry, wierd results!
   def diagonal_indexes_to_right
      start_indexes = get_start_indexes_to_right(4)
      leap = col_num + 1
@@ -118,11 +125,9 @@ class Board
      end
    end
 
-
   def diagonals
     (diagonal_indexes_to_right + diagonal_indexes_to_left).map {|diagonal| diagonal.map { |i| i = cells[i]}}
   end
-
 
   def check_four_consecutive?
     (columns + rows + diagonals).any? { |lines| four_consecutive?(lines) }
