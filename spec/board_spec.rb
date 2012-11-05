@@ -181,12 +181,12 @@ describe Board do
 
    context "#diagonal_indexes" do
      it "has a maximum of row_num units when its going to right" do
-       board.diagonal_indexes_to_right.each do |diagonal|
+       board.diagonal_indexes(1, 0, board.get_start_indexes_to_right(4)).each do |diagonal|
          diagonal.length.should <= board.row_num
        end
      end
      it "has a maximum of row_num units when its going to left" do
-       board.diagonal_indexes_to_left.each do |diagonal|
+       board.diagonal_indexes(-1, board.col_num-1, board.get_start_indexes_to_left(4)).each do |diagonal|
           diagonal.length.should <= board.row_num
         end
       end

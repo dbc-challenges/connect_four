@@ -94,39 +94,22 @@ class Board
     index % col_num
   end
 
-# DRY? I was not able to make these two dry, wierd results!
-  def diagonal_indexes_to_right
-     start_indexes = get_start_indexes_to_right(4)
-     leap = col_num + 1
+  def diagonal_indexes(leap_no, end_no, start_indexes)
+     leap = col_num + leap_no
      start_indexes.map do |index|
        diagonal = []
        while true
          diagonal << index
          index += leap
          row, column = row_index_number(index), column_index_number(index)
-         break if row == row_num || column == 0
+         break if row == row_num || column == end_no
        end
        diagonal
      end
    end
-
-  def diagonal_indexes_to_left
-     start_indexes = get_start_indexes_to_left(4)
-     leap = col_num - 1
-     start_indexes.map do |index|
-       diagonal = []
-       while true
-         diagonal << index
-         index += leap
-         row, column = row_index_number(index), column_index_number(index)
-         break if row == row_num || column == col_num-1
-       end
-       diagonal
-     end
-   end
-
+  
   def diagonals
-    (diagonal_indexes_to_right + diagonal_indexes_to_left).map {|diagonal| diagonal.map { |i| i = cells[i]}}
+    (diagonal_indexes(1, 0, get_start_indexes_to_right(4)) + diagonal_indexes(-1, col_num-1, get_start_indexes_to_left(4))).map {|diagonal| diagonal.map { |i| i = cells[i]}}
   end
 
   def check_four_consecutive?
