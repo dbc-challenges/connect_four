@@ -56,7 +56,7 @@ describe Defense do
       deff.cell_rating_right(39).should eq 6
     end
 
-    it "should rate 14 a cell with 2 pieces on the right" do
+    it "should rate 14 a cell with 3 pieces on the right" do
       deff = Defense.new
       deff.board.place_piece(7, "red")
       deff.board.place_piece(6, "red")
