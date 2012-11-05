@@ -26,12 +26,15 @@ def valid_response?(string)
 	string =~ /@whereskunaldo |.......|.......|.......|.......|.......|.......| #dbc_c4/
 end
 
+def make_move(board)
+  player = AIPlayer5.new("AI", 1)
+	move = player.next_move(board)
+	board.drop_disc!(move, 1)
+end
+
 def respond_to_board(string, challenger)
 	board = Board.from_string(string)
-	p board
-	player = AIPlayer5.new("AI", 1)
-  move = player.next_move(board)
-  board.drop_disc!(move, 1)
+	make_move(board)
 
   if board.color_of_connect_four == 1
   	Twitter.update("@#{challenger} I win! Good game. #dbc_c4")
@@ -47,10 +50,7 @@ end
 
 def playgame(challenger)
   board = Board.new
-  player = CopyCat.new("copy", 1)
-  move = player.next_move(board)
-  board.drop_disc!(move, 1)
-  puts "@#{challenger} #{board.to_twitter_string} #dbc_c4"
+  make_move(board)
   Twitter.update("@#{challenger} #{board.to_twitter_string} #dbc_c4")
 
 	TweetStream::Client.new.userstream do |status|
@@ -60,6 +60,8 @@ def playgame(challenger)
 		end
 	end
 end
+
+# Twitter.update("Who wants to get demolished? #dbc_c4")
 
 TweetStream::Client.new.userstream do |status|
   if game_on?(status.text)
