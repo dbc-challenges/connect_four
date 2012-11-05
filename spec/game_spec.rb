@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe Game do
 
-  let(:player1) { Player.new({:name => 'brant', :twitter => 'brant', :password => 'master'}) }
+  let(:player1) { Player.new({:name => 'brent', :twitter => 'brent', :password => 'master'}) }
   let(:player2) { Player.new({:name => 'jo', :twitter => 'jauny', :password => 'blah'}) }
   let(:game) { Game.new(player1, player2) }
-
-  describe '.new' do
+  
+  context '#initialize' do
     it 'has 2 players' do
       game.player1.should be_true
       game.player2.should be_true
@@ -21,6 +21,22 @@ describe Game do
     end
   end
 
-
+  context "#toggle_player" do
+    it "should change the order of the players" do
+      first_player = game.players.first
+      second_player = game.players.last
+      game.toggle_player
+      game.players.first.should eq(second_player)
+    end
+  end
+  
+  context "#current_player" do
+    it "should return the current player" do
+      first_player = game.players.first
+      second_player = game.players.last
+      game.toggle_player
+      game.current_player.should eq(second_player)
+    end
+  end
 
 end

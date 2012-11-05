@@ -90,13 +90,25 @@ class UI
   end
 
   def self.create_player(player)
-    puts "Enter username for #{player}"
-    player_name = gets.chomp.capitalize
-    puts "Enter your twitter account"
-    player_twitter = gets.chomp
-    puts "Enter your password"
-    player_password = gets.chomp
+    player_name = get_player_name(player)
+    player_twitter = unique_twitter_account
+    player_password = secure_password
     { name: player_name, twitter: player_twitter, password: player_password }
+  end
+  
+  def self.get_player_name(player)
+    puts "Enter username for #{player}"
+    gets.chomp.capitalize
+  end
+  
+  def self.unique_twitter_account
+    puts "Enter your twitter account"
+    player_twitter = gets.chomp         # TODO: secure uniquness of twitter
+  end
+  
+  def self.secure_password
+    puts "Enter your password"          # TODO: secure password
+    player_password = gets.chomp
   end
 
   def self.twitter_tag
