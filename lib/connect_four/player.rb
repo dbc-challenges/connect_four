@@ -18,7 +18,7 @@ class Player
   end
   
   def id
-    @id = DB.handler("SELECT id FROM players WHERE twitter = #{@twitter}")
+    @id = DB.handler("SELECT id FROM players WHERE twitter = ?;", twitter).flatten.join.to_i
   end
 
   def move
@@ -28,5 +28,17 @@ class Player
 
   def to_s
     name
+  end
+  
+  def wins
+    DB.handler("SELECT COUNT(*) FROM games WHERE winner = ?", id).flatten.join
+  end
+
+  def losses
+    DB.handler("SELECT COUNT(*) FROM games WHERE (player1 = ? OR player2 = ?) AND winner != ? AND winner != 0", Array.new(3, id)).flatten.join
+  end
+
+  def ties
+    DB.handler("SELECT COUNT(*) FROM games WHERE (player1 = ? OR player2 = ?) AND winner = 0", Array.new(2, id)).flatten.join
   end
 end

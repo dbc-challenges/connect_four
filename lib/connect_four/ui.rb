@@ -5,7 +5,7 @@ class UI
   def self.start(start_message = "Welcome to Connect Four! Pick a number")
     DB.create
     puts start_message
-    puts "0 - (quit), 1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter)"
+    puts "1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter), 4 - (Statistic), q - (quit), "
     case gets.chomp
     when "1"
       puts "Good choice!"
@@ -16,9 +16,11 @@ class UI
     when "3"
       puts "I will send out the message pigeon!"
       create_1vsTwitter_player
-    when "0"
+    when "4"
+      show_user_statistic
+   when "q"
       puts "Bye!"
-      return 
+      return
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
       start
@@ -50,7 +52,16 @@ class UI
     @player2 = ComputerPlayer.new({name: "MCP", piece: 'O'})
     #@player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     @player1 = TwitterPlayer.from_twitter
-    
+  end
+  
+  def self.show_user_statistic
+    @player = Player.new(create_player("Player"))
+    puts "STATISTIC for #{@player}"
+    puts "========================="
+    puts "WINS: #{@player.wins}"
+    puts "LOSSES: #{@player.losses}"
+    puts "TIES: #{@player.ties}"
+    start("What do you want to do now?")
   end
 
   def self.board_display
