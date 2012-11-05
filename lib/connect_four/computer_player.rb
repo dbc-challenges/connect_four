@@ -39,13 +39,8 @@ class ComputerPlayer
     left_cell = UI.game.board.cells[position - 1]
     unless [35, 28, 21, 14, 7, 0].include?(position)
       if left_cell == opponent_piece
-
-      	# puts positions_ratings[(position%7)+1].inspect
         positions_ratings[position%7 + 1] += 2  
-
- 				# ^^^^^^^^for some reason this is nil ^^^^^^^^^^^
-
-        # cell_rating_left2(position) unless [36, 29, 22, 15, 8, 1].include?(position)
+        cell_rating_left2(position) unless [36, 29, 22, 15, 8, 1].include?(position)
       else
         positions_ratings[position%7+1] ||= 0
       end
