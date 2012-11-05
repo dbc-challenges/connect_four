@@ -19,7 +19,7 @@ class Game
       save(0)
     else
       winner = current_player
-      save(winner.id)
+      (winner.name == "MCP" || winner.class == TwitterPlayer) ? save(0) : save(winner.id) 
     end
     UI.congratulations(winner)
     UI.start("What do you want to do now?")
@@ -38,7 +38,11 @@ class Game
   end
   
   def save(winner_id)
-    values = [@player1.id, @player2.id, winner_id]
+    if @player1.name == "MCP" || @player1.class == TwitterPlayer
+      values = [0, @player2.id, winner_id]
+    else
+      values = [@player1.id, @player2.id, winner_id]
+    end
     DB.handler("INSERT INTO games (player1, player2, winner) VALUES (?, ?, ?);", values)
   end
 
