@@ -1,4 +1,5 @@
 require 'io/console'
+require './database.rb'
 class UI
   attr_reader :game, :tweet
 
