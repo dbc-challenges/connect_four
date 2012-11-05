@@ -31,6 +31,7 @@ class ComputerPlayer
     	#puts move
       cell_rating_left(move)
       cell_rating_right(move)
+      cell_rating_bottom(move)
     end
     positions_ratings
   end
@@ -40,8 +41,8 @@ class ComputerPlayer
     unless [35, 28, 21, 14, 7, 0].include?(position)
       if left_cell == opponent_piece
 
-      	puts positions_ratings[(position%7)+1].inspect
-        #positions_ratings[(position%7)+1] += 2  
+      	# puts positions_ratings[(position%7)+1].inspect
+        positions_ratings[position%7 + 1] += 2  
 
  				# ^^^^^^^^for some reason this is nil ^^^^^^^^^^^
 
