@@ -1,3 +1,4 @@
+*.db
 *.gem
 *.rbc
 .bundle
@@ -16,3 +17,6 @@ tmp
 .yardoc
 _yardoc
 doc/
+oauth/
+db/connectfour.db
+oauth_test
