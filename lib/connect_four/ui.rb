@@ -49,25 +49,25 @@ class UI
   end
 
   def self.create_1vs1_player
-    @player1 = Player.new(create_player("Player X").merge(:piece => 'X'))
+    @player1 = Player.new(create_player("Player O").merge(:piece => 'O'))
     @player1.save
-    @player2 = Player.new(create_player("Player O").merge(:piece => 'O'))
+    @player2 = Player.new(create_player("Player X").merge(:piece => 'X'))
     @player2.save
   end
 
   def self.create_1vsPC_player
-    @player1 = ComputerPlayer.new({name: "MCP", piece: 'X'})
-    @player2 = Player.new(create_player("Player O").merge(:piece => 'O'))
+    @player1 = ComputerPlayer.new({name: "MCP", piece: 'O'})
+    @player2 = Player.new(create_player("Player X").merge(:piece => 'X'))
     @player2.save
   end
 
   def self.create_1vsTwitter_player
-    @player2 = Player.new(create_player("Player O").merge(:piece => 'O'))
+    @player2 = Player.new(create_player("Player X").merge(:piece => 'X'))
     @player1 = TwitterPlayer.from_twitter
   end
   
   def self.create_PCvsTwitter_player
-    @player2 = ComputerPlayer.new({name: "MCP", piece: 'O'})
+    @player2 = ComputerPlayer.new({name: "MCP", piece: 'X'})
     @player1 = TwitterPlayer.from_twitter
   end
   
