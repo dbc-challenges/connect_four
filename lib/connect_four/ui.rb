@@ -1,12 +1,25 @@
 class UI
-
   attr_reader :game, :tweet
 
   def self.start(start_message = "Welcome to Connect Four! Pick a number")
     DB.create
     puts start_message
-    puts "1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter), 4 - (Statistic), q - (quit), "
-    case gets.chomp
+    puts "1 - (1 vs 1), 2 - (1 vs PC), 3 - (1 vs Twitter), 4 - (Statistic), r - (repeat game), q - (quit), "
+    choice = choices(gets.chomp)
+    if choice == "q"
+      exit
+    else
+      @game = Game.new(@player1, @player2)
+      @game.play
+    end
+  end
+
+  def self.game
+    @game
+  end
+  
+  def self.choices(user_input)
+    case user_input
     when "1"
       puts "Good choice!"
       create_1vs1_player
@@ -18,26 +31,20 @@ class UI
       create_1vsTwitter_player
     when "4"
       show_user_statistic
+   when "r"
+     return "r"
    when "q"
       puts "Bye!"
-      return
+      return "q"
     else
       puts "Sorry, playing against Queen Elizabeth is not an option!"
       start
     end
-    @game = Game.new(@player1, @player2)
-    @game.play
-  end
-
-  def self.game
-    @game
   end
 
   def self.create_1vs1_player
-    puts "Who wants to be first?"
     @player1 = Player.new(create_player("Player 1").merge(:piece => 'X'))
     @player1.save
-    puts "Last but not least:"
     @player2 = Player.new(create_player("Player 2").merge(:piece => 'O'))
     @player2.save
   end

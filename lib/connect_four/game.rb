@@ -1,5 +1,4 @@
 class Game
-  # include Database
   attr_reader :player1, :player2, :winner, :board
 
   def initialize(player1, player2)

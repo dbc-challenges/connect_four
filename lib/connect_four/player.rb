@@ -1,6 +1,4 @@
 class Player
- # include Database
-
   attr_reader :name, :twitter, :password, :piece
 
   def initialize(params = {})

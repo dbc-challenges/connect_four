@@ -20,22 +20,3 @@ class DB
   end
 
 end
-
-module Database
-  # def db
-  #   @db ||= find_or_create
-  # end
-  #
-  # def find_or_create
-  #   name = "connectfour.db"
-  #   db_path = File.expand_path(File.join(File.dirname(__FILE__), '..', '..', 'db'))
-  #   p db_path
-  #   schema_path = File.join(db_path, 'schema.sql')
-  #   database_path = File.join(db_path, name)
-  #
-  #   system("sqlite3 #{db_path} < #{schema_path}")
-  #   SQLite3::Database.new(database_path)
-  # end
-end
-
-
