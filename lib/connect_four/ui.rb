@@ -37,10 +37,10 @@ class UI
       create_PCvsTwitter_player
     when "s"
       show_user_statistic
-   when "r"
-     return
-   when "q"
-     puts "=" * 100
+    when "r"
+      return
+    when "q"
+      puts "=" * 100
       puts "Auf Wiedersehen!"
       exit
     else
@@ -83,7 +83,8 @@ class UI
   
   def self.board_display
     if (game.current_player == @player1) && (@player1.class == TwitterPlayer)
-      puts game.board.to_s
+      puts "Tweeted:"
+      print_board
       tweet_board(game.board.to_s, twitter_tag)
     else
       print_board
@@ -91,7 +92,7 @@ class UI
   end
 
   def self.tweet_board(tweet, message)
-    puts "@#{@player1.twitter} #{tweet} #{message} #{@player1.random_tag}"
+    #puts "@#{@player1.twitter} #{tweet} #{message} #{@player1.random_tag}"
     Twitter.update("@#{@player1.twitter} #{tweet} #{message} #{@player1.random_tag}")
   end
 

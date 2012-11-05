@@ -36,7 +36,7 @@ class TwitterPlayer
 
     puts "...waiting for player"
     TweetStream::Client.new.track('#dbc_c4') do |status, client|
-      puts "id = #{status.user[:id]}, text = #{status.text}"
+      #puts "id = #{status.user[:id]}, text = #{status.text}"
       text = status.text.gsub(/#.*/, "").strip
       if text == "Who wants to get demolished?"
         client.stop
