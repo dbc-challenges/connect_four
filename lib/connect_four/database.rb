@@ -18,5 +18,10 @@ class DB
     db.close
     result
   end
+  
+  def self.check_twitter(player_name, twitter)
+    authorisation = handler("SELECT name, twitter FROM players WHERE twitter = ?;", twitter).flatten
+    authorisation[0] == player_name || authorisation.empty?
+  end
 
 end

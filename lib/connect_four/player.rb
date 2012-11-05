@@ -20,7 +20,8 @@ class Player
   end
 
   def move
-    puts "#{name}, what column do you want to play in?"
+    puts "-" * 50
+    print "#{name}, what column do you want to play in? "
     gets.chomp.to_i
   end
 
